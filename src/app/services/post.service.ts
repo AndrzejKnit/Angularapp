@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Post } from '../models/Post';
+import { post } from 'selenium-webdriver/http';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -30,4 +31,10 @@ export class PostService {
     return this.http.put<Post>(url, post, httpOptions);
   }
 
+  removePost(post: Post | number): Observable<Post> {
+    const id = typeof post === 'number' ? post : post.id;
+    const url = `${this.postsUrl}/${id}`;
+
+    return this.http.delete<Post>(url, httpOptions);
+  }
 }
